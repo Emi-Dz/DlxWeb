@@ -108,11 +108,6 @@ export const SERVICES: Service[] = [
     title: 'Diseño y Desarrollo de Apps',
     description: 'Creación de aplicaciones móviles y web intuitivas y potentes, adaptadas a tus necesidades.',
   },
-  {
-    icon: <CloudIcon />,
-    title: 'Infraestructura y Cloud Computing',
-    description: 'Consultoría, implementación y gestión de infraestructuras IT robustas y soluciones en la nube.',
-  },
 ];
 
 export const BENEFITS: Benefit[] = [
