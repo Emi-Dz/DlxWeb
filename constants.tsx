@@ -26,12 +26,6 @@ const MobileIcon: React.FC<IconProps> = ({ className = "w-14 h-14" }) => (
   </svg>
 );
 
-const CloudIcon: React.FC<IconProps> = ({ className = "w-14 h-14" }) => (
-  <svg className={className} stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
-    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
-  </svg>
-);
-
 const LightbulbIcon: React.FC<IconProps> = ({ className = "w-12 h-12" }) => (
   <svg className={className} stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
     <path d="M9 18h6M10 22h4"></path><path d="M12 2a7 7 0 0 0-4.95 11.95A7 7 0 0 0 12 22a7 7 0 0 0 4.95-11.95A7 7 0 0 0 12 2z"></path>
