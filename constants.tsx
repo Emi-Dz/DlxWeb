@@ -155,5 +155,9 @@ export const FOUNDERS: Founder[] = [
 export const FEATURED_PROJECT: FeaturedProject = {
     youtubeVideoId: 'j7Hj1jxU5e8',
     title: 'DlxTech | Soluciones Tecnológicas Avanzadas',
-    description: 'En DlxTech ayudamos a negocios a crecer con tecnología real, práctica y accesible.'
+    description: 'En DlxTech ayudamos a negocios a crecer con tecnología real, práctica y accesible.',
+    youtubeVideoId: 'aKNV74ENfYU',
+    title: 'App con IA para Diseños de Uñas, Tatuajes y Barberías',
+    description: 'Descubrí nuestra app con inteligencia artificial pensada para emprendedores creativos.
+Guardá tus diseños, creá tu portafolio y encontrá inspiración al instante con un buscador inteligente que te sugiere estilos según lo que escribas.'
 };
