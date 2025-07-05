@@ -152,11 +152,15 @@ export const FOUNDERS: Founder[] = [
 // Edita la siguiente información para mostrar tu proyecto principal.
 // Para obtener el 'youtubeVideoId', copia la parte de la URL de YouTube después de 'v='.
 // Ejemplo: para 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', el ID es 'dQw4w9WgXcQ'.
-export const FEATURED_PROJECT: FeaturedProject = {
+export const PROJECTS: Project[] = [
+{
     youtubeVideoId: 'j7Hj1jxU5e8',
     title: 'DlxTech | Soluciones Tecnológicas Avanzadas',
     description: 'En DlxTech ayudamos a negocios a crecer con tecnología real, práctica y accesible.',
+},
+{
     youtubeVideoId: 'aKNV74ENfYU',
     title: 'App con IA para Diseños de Uñas, Tatuajes y Barberías',
     description: 'Descubrí nuestra app con inteligencia artificial pensada para emprendedores creativos. Guardá tus diseños, creá tu portafolio y encontrá inspiración al instante con un buscador inteligente que te sugiere estilos según lo que escribas.',
-};
+}
+];
