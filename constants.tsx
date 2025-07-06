@@ -159,7 +159,7 @@ export const PROJECTS: Project[] = [
     description: 'En DlxTech ayudamos a negocios a crecer con tecnología real, práctica y accesible.',
 },
 {
-    youtubeVideoId: 'aKNV74ENfYU',
+    youtubeVideoId: 'UbxuGFPbYTM',
     title: 'App con IA para Diseños de Uñas, Tatuajes y Barberías',
     description: 'Descubrí nuestra app con inteligencia artificial pensada para emprendedores creativos. Guardá tus diseños, creá tu portafolio y encontrá inspiración al instante con un buscador inteligente que te sugiere estilos según lo que escribas.',
 }
