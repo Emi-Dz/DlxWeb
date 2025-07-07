@@ -162,7 +162,7 @@ export const PROJECTS: Project[] = [
     youtubeVideoId: 'UbxuGFPbYTM',
     title: 'App con IA para Diseños de Uñas, Tatuajes y Barberías',
     description: 'Descubrí nuestra app con inteligencia artificial pensada para emprendedores creativos. Guardá tus diseños, creá tu portafolio y encontrá inspiración al instante con un buscador inteligente que te sugiere estilos según lo que escribas.',
-}
+},
 {
     youtubeVideoId: 'tPXEH60WILk',
     title: 'Probamos un Asistente con IA para Instagram | Ejemplo de un centro de Estética',
