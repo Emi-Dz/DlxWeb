@@ -5,9 +5,10 @@ import { XIcon, SERVICES } from '../constants';
 interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
+  isSuccess?: boolean;
 }
 
-const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
+const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, isSuccess = false }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -16,12 +17,15 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         message: ''
     });
 
-    const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
+    const [redirectUrl, setRedirectUrl] = useState('');
 
     useEffect(() => {
-        // This ensures the code runs only on the client, where the document exists.
         setModalRoot(document.getElementById('modal-root'));
+        // Set redirect URL once on the client to ensure it's correct
+        if (typeof window !== 'undefined') {
+          setRedirectUrl(`${window.location.origin}${window.location.pathname}?contact=success`);
+        }
     }, []);
 
     useEffect(() => {
@@ -39,7 +43,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         if (!isOpen) {
             // Delay reset to allow fade-out animation
             setTimeout(() => {
-                setSubmissionStatus('idle');
                  setFormData({ name: '', email: '', company: '', services: [], message: '' });
             }, 300);
         }
@@ -60,36 +63,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                 return { ...prev, services: currentServices.filter(s => s !== value) };
             }
         });
-    };
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setSubmissionStatus('submitting');
-        
-        const form = e.target as HTMLFormElement;
-        const data = new FormData(form);
-
-        try {
-            const response = await fetch("https://formsubmit.co/dev.dlxtech@gmail.com", {
-                method: 'POST',
-                body: data,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                setSubmissionStatus('success');
-                setTimeout(() => {
-                    onClose();
-                }, 3000);
-            } else {
-                setSubmissionStatus('error');
-            }
-        } catch (error) {
-            console.error('Form submission error:', error);
-            setSubmissionStatus('error');
-        }
     };
     
     if (!isOpen || !modalRoot) {
@@ -112,10 +85,11 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                     <XIcon />
                 </button>
 
-                {submissionStatus === 'success' ? (
+                {isSuccess ? (
                      <div className="text-center py-10">
                         <h2 id="contact-modal-title" className="text-3xl font-bold text-light-text mb-4">¡Mensaje Enviado!</h2>
                         <p className="text-light-text/80">Gracias por contactarnos. Te responderemos a la brevedad.</p>
+                        <p className="text-sm text-light-text/60 mt-4">(Si es la primera vez que nos contactas, revisa tu correo para activar el envío).</p>
                     </div>
                 ) : (
                     <>
@@ -124,8 +98,9 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                             <p className="text-light-text/80 mt-2">Completa el formulario y nos pondremos en contacto.</p>
                         </div>
 
-                        <form onSubmit={handleSubmit} noValidate>
-                            {/* FormSubmit fields */}
+                        <form action="https://formsubmit.co/dev.dlxtech@gmail.com" method="POST">
+                            {/* FormSubmit config */}
+                            <input type="hidden" name="_next" value={redirectUrl} />
                             <input type="hidden" name="_subject" value="Nuevo Mensaje de Contacto desde DlxTech" />
                             <input type="text" name="_honey" style={{display: 'none'}} />
                         
@@ -163,10 +138,9 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                             </div>
                             
                             <div className="mt-8 text-center">
-                                <button type="submit" disabled={submissionStatus === 'submitting'} className="w-full md:w-auto bg-button-bg text-light-text font-semibold px-8 py-4 rounded-lg shadow-lg hover:bg-button-hover hover:scale-105 transform transition-all duration-300 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100">
-                                    {submissionStatus === 'submitting' ? 'Enviando...' : 'Enviar Mensaje'}
+                                <button type="submit" className="w-full md:w-auto bg-button-bg text-light-text font-semibold px-8 py-4 rounded-lg shadow-lg hover:bg-button-hover hover:scale-105 transform transition-all duration-300 ease-in-out">
+                                    Enviar Mensaje
                                 </button>
-                                {submissionStatus === 'error' && <p className="text-red-500 mt-4">Hubo un error al enviar el formulario. Por favor, inténtalo de nuevo.</p>}
                             </div>
                         </form>
                     </>
