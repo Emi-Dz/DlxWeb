@@ -68,10 +68,14 @@ const Chatbot: React.FC = () => {
         }
 
         try {
+            // Use URLSearchParams for better server compatibility.
+            // This sends data as 'application/x-www-form-urlencoded'.
+            const body = new URLSearchParams();
+            body.append('message', userMessageText);
+            
             const response = await fetch(N8N_WEBHOOK_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: userMessageText }),
+                body: body,
             });
 
             if (!response.ok) {
@@ -79,7 +83,7 @@ const Chatbot: React.FC = () => {
             }
 
             const data = await response.json();
-            // Asumimos que n8n devuelve una respuesta en el campo "reply" o "text"
+            // We assume n8n will return a response in the "reply" or "text" field
             const botReplyText = data.reply || data.text || 'No he podido procesar tu solicitud. Intenta de nuevo.';
             
             const newBotMessage: ChatMessage = {
