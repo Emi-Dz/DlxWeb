@@ -8,6 +8,7 @@ import CallToAction from '../components/CallToAction';
 import ProjectsSection from '../components/ProjectsSection';
 import Footer from '../components/Footer';
 import ContactModal from '../components/ContactModal';
+import Chatbot from '../components/Chatbot';
 
 const LandingPage: React.FC = () => {
   const [isContactModalOpen, setContactModalOpen] = useState(false);
@@ -83,6 +84,7 @@ const LandingPage: React.FC = () => {
         onClose={handleCloseModal}
         isSuccess={isFormSuccess} 
       />
+      <Chatbot />
     </div>
   );
 };
