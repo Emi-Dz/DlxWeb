@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { XIcon, SERVICES } from '../constants';
 
 interface ContactModalProps {
@@ -16,6 +17,12 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
     });
 
     const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+    const [modalRoot, setModalRoot] = useState<HTMLElement | null>(null);
+
+    useEffect(() => {
+        // This ensures the code runs only on the client, where the document exists.
+        setModalRoot(document.getElementById('modal-root'));
+    }, []);
 
     useEffect(() => {
         const handleEsc = (event: KeyboardEvent) => {
@@ -37,8 +44,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
             }, 300);
         }
     }, [isOpen]);
-
-    if (!isOpen) return null;
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -87,8 +92,12 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
             setSubmissionStatus('error');
         }
     };
+    
+    if (!isOpen || !modalRoot) {
+        return null;
+    }
 
-    return (
+    return createPortal(
         <div 
             className="fixed inset-0 bg-dark-background/80 backdrop-blur-sm flex justify-center items-center z-50 p-4 animate-fadeIn"
             onClick={onClose}
@@ -160,7 +169,8 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                     </>
                 )}
             </div>
-        </div>
+        </div>,
+        modalRoot
     );
 };
 
