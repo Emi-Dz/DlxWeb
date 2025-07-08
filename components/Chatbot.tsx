@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import type { ChatMessage } from '../types';
 import { ChatIcon, XIcon, N8N_WEBHOOK_URL } from '../constants';
@@ -84,10 +85,27 @@ const Chatbot: React.FC = () => {
 
             const data = await response.json();
             
-            // Expects a response format of: `[{ "output": "message text" }]`
-            const botReplyText = data?.[0]?.output;
+            let botReplyText: string | undefined;
 
-            if (botReplyText && typeof botReplyText === 'string') {
+            // Robustly parse the response from n8n, trying common formats.
+            if (Array.isArray(data) && data.length > 0) {
+                const firstItem = data[0];
+                if (typeof firstItem?.output === 'string') {
+                    botReplyText = firstItem.output;
+                } else if (typeof firstItem?.reply === 'string') {
+                    botReplyText = firstItem.reply;
+                } else if (typeof firstItem?.text === 'string') {
+                    botReplyText = firstItem.text;
+                }
+            } else if (typeof data?.output === 'string') {
+                botReplyText = data.output;
+            } else if (typeof data?.reply === 'string') {
+                botReplyText = data.reply;
+            } else if (typeof data?.text === 'string') {
+                botReplyText = data.text;
+            }
+
+            if (botReplyText) {
                 const newBotMessage: ChatMessage = {
                     id: (Date.now() + 1).toString(),
                     text: botReplyText.trim(),
@@ -95,7 +113,7 @@ const Chatbot: React.FC = () => {
                 };
                 setMessages(prev => [...prev, newBotMessage]);
             } else {
-                console.error("Respuesta inesperada del servidor:", data);
+                console.error("Respuesta inesperada del servidor, no se encontró texto de respuesta válido:", data);
                 const errorMessage: ChatMessage = {
                     id: 'error_format',
                     text: 'No he podido procesar la respuesta del servidor. Inténtalo de nuevo.',
