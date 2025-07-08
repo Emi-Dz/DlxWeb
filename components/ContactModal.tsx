@@ -70,8 +70,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
         const data = new FormData(form);
 
         try {
-            // NOTE: Replace with your own Formspree endpoint pointing to dev.dlxtech@gmail.com
-            const response = await fetch("https://formspree.io/f/mzbndgbe", {
+            const response = await fetch("https://formsubmit.co/dev.dlxtech@gmail.com", {
                 method: 'POST',
                 body: data,
                 headers: {
@@ -126,6 +125,10 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
                         </div>
 
                         <form onSubmit={handleSubmit} noValidate>
+                            {/* FormSubmit fields */}
+                            <input type="hidden" name="_subject" value="Nuevo Mensaje de Contacto desde DlxTech" />
+                            <input type="text" name="_honey" style={{display: 'none'}} />
+                        
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-semibold text-light-text/90 mb-2">Nombre Completo</label>
