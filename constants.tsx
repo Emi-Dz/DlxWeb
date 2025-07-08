@@ -1,5 +1,5 @@
 import React from 'react';
-import type { NavLink, Service, Benefit, Founder, FeaturedProject } from './types';
+import type { NavLink, Service, Benefit, Founder, Project } from './types';
 
 // Generic Icon component props
 interface IconProps {
@@ -150,8 +150,6 @@ export const FOUNDERS: Founder[] = [
       name: 'Facundo Lobos',
       title: 'Co-Founder & CEO',
       description: 'Apasionado por el aprendizaje continuo y el diseño de experiencias de usuario eficientes. En DlxTech, lidero la creación de herramientas que simplifican la vida de las personas, especializándome en optimizar procesos de negocio a través de soluciones de inteligencia artificial personalizadas y el desarrollo de aplicaciones intuitivas que entregan resultados rápidos y efectivos.',
-      // Reemplaza 'user-icon' con la URL directa a tu foto de perfil.
-      // Ejemplo: 'https://.../mi_foto.jpg'
       image: 'https://media.licdn.com/dms/image/v2/D4D03AQFk0fV28-rSsg/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1731683658261?e=1756944000&v=beta&t=TuMl4wisEes8_5jEU-UeT2Y5a2MjH3x7yaSvXcBfvOU',
       linkedin: 'https://www.linkedin.com/in/facundo-lobos/',
       instagram: 'https://www.instagram.com/facuulobos/'
@@ -167,7 +165,7 @@ export const FOUNDERS: Founder[] = [
 ];
 
 // --- PROYECTOS ---
-export const PROJECTS = [
+export const PROJECTS: Project[] = [
   {
     youtubeVideoId: 'j7Hj1jxU5e8',
     title: "DlxTech | Soluciones Tecnológicas Avanzadas",
@@ -184,4 +182,3 @@ export const PROJECTS = [
     description: "En este video te mostramos cómo funciona un asistente inteligente con IA que responde consultas automáticamente por Instagram, ideal para centros de estética, peluquerías o barberías.",
   },
 ];
-
