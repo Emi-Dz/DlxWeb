@@ -83,12 +83,16 @@ const Chatbot: React.FC = () => {
             }
 
             const data = await response.json();
+            
+            // The response from n8n is an array with one object: [{ respuesta_chatbot: {...} }]
+            const botResponseObject = data[0]?.respuesta_chatbot || data.multi_reply;
+
 
             // Handle multi-part responses
-            if (data.multi_reply && typeof data.multi_reply === 'object') {
-                const parts = Object.keys(data.multi_reply)
+            if (botResponseObject && typeof botResponseObject === 'object') {
+                const parts = Object.keys(botResponseObject)
                     .sort() // Sorts 'part_1', 'part_2', etc., correctly
-                    .map(key => data.multi_reply[key])
+                    .map(key => botResponseObject[key])
                     .filter(text => typeof text === 'string' && text.trim() !== '');
 
                 const addMessagesSequentially = (messagesToAdd: string[], index = 0) => {
@@ -116,7 +120,7 @@ const Chatbot: React.FC = () => {
                 }
 
             } else {
-                // Fallback for single-part responses
+                // Fallback for single-part or incorrectly formatted responses
                 const botReplyText = data.reply || data.text || 'No he podido procesar tu solicitud. Intenta de nuevo.';
                 const newBotMessage: ChatMessage = {
                     id: (Date.now() + 1).toString(),
