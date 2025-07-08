@@ -11,6 +11,18 @@ import ContactModal from '../components/ContactModal';
 
 const LandingPage: React.FC = () => {
   const [isContactModalOpen, setContactModalOpen] = useState(false);
+  const [isFormSuccess, setFormSuccess] = useState(false);
+
+  useEffect(() => {
+    // Check for form submission success on redirect
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('contact') === 'success') {
+      setFormSuccess(true);
+      setContactModalOpen(true);
+      // Clean the URL to avoid showing the success message on refresh
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
 
   useEffect(() => {
     const { hash } = window.location;
@@ -43,6 +55,17 @@ const LandingPage: React.FC = () => {
     }
   }, []); // Run only when the component mounts
 
+  const handleCloseModal = () => {
+    setContactModalOpen(false);
+    // Reset success state after a delay to allow for fade-out animation
+    if (isFormSuccess) {
+      setTimeout(() => {
+        setFormSuccess(false);
+      }, 300);
+    }
+  };
+
+
   return (
     <div className="overflow-x-hidden">
       <Header />
@@ -55,7 +78,11 @@ const LandingPage: React.FC = () => {
         <CallToAction onOpenContactModal={() => setContactModalOpen(true)} />
       </main>
       <Footer />
-      <ContactModal isOpen={isContactModalOpen} onClose={() => setContactModalOpen(false)} />
+      <ContactModal 
+        isOpen={isContactModalOpen} 
+        onClose={handleCloseModal}
+        isSuccess={isFormSuccess} 
+      />
     </div>
   );
 };
