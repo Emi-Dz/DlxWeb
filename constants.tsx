@@ -166,12 +166,22 @@ export const FOUNDERS: Founder[] = [
     }
 ];
 
-// --- PROYECTO DESTACADO ---
-// Edita la siguiente información para mostrar tu proyecto principal.
-// Para obtener el 'youtubeVideoId', copia la parte de la URL de YouTube después de 'v='.
-// Ejemplo: para 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', el ID es 'dQw4w9WgXcQ'.
-export const FEATURED_PROJECT: FeaturedProject = {
-    youtubeVideoId: 'UxSMm16Qc1I',
-    title: 'Batalla de Salamines',
-    description: 'Juego de Roblox de batalla por equipos.'
-};
+// --- PROYECTOS ---
+export const PROJECTS = [
+  {
+    youtubeVideoId: 'j7Hj1jxU5e8',
+    title: "DlxTech | Soluciones Tecnológicas Avanzadas",
+    description: "En DlxTech ayudamos a negocios a crecer con tecnología real, práctica y accesible.",
+  },
+  {
+    youtubeVideoId: 'UbxuGFPbYTM',
+    title: "App con IA para Diseños de Uñas, Tatuajes y Barberías",
+    description: "Descubrí nuestra app con inteligencia artificial pensada para emprendedores creativos. Guardá tus diseños, creá tu portafolio y encontrá inspiración al instante con un buscador inteligente que te sugiere estilos según lo que escribas.",
+  },
+  {
+    youtubeVideoId: 'tPXEH60WILk',
+    title: "Probamos un Asistente con IA para Instagram | Ejemplo de un centro de Estética",
+    description: "En este video te mostramos cómo funciona un asistente inteligente con IA que responde consultas automáticamente por Instagram, ideal para centros de estética, peluquerías o barberías.",
+  },
+];
+
