@@ -32,8 +32,15 @@ export interface Founder {
   instagram?: string;
 }
 
-export interface Project {
+export interface FeaturedProject {
   youtubeVideoId: string;
   title: string;
   description: string;
 }
+
+export interface ChatMessage {
+  id: string;
+  text: string;
+  sender: 'user' | 'bot';
+}
+
