@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import Services from '../components/Services';
@@ -7,8 +7,11 @@ import Founders from '../components/Founders';
 import CallToAction from '../components/CallToAction';
 import ProjectsSection from '../components/ProjectsSection';
 import Footer from '../components/Footer';
+import ContactModal from '../components/ContactModal';
 
 const LandingPage: React.FC = () => {
+  const [isContactModalOpen, setContactModalOpen] = useState(false);
+
   useEffect(() => {
     const { hash } = window.location;
     // If there's a hash in the URL, try to scroll to it.
@@ -44,14 +47,15 @@ const LandingPage: React.FC = () => {
     <div className="overflow-x-hidden">
       <Header />
       <main>
-        <Hero />
+        <Hero onOpenContactModal={() => setContactModalOpen(true)} />
         <Services />
         <Benefits />
         <ProjectsSection />
         <Founders />
-        <CallToAction />
+        <CallToAction onOpenContactModal={() => setContactModalOpen(true)} />
       </main>
       <Footer />
+      <ContactModal isOpen={isContactModalOpen} onClose={() => setContactModalOpen(false)} />
     </div>
   );
 };
