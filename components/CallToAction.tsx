@@ -1,6 +1,9 @@
 import React from 'react';
 import { useInView } from 'react-intersection-observer';
-import { handleLinkClick } from '../utils/navigation';
+
+interface CallToActionProps {
+  onOpenContactModal: () => void;
+}
 
 const SectionTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     <div className="text-center mb-8">
@@ -11,7 +14,7 @@ const SectionTitle: React.FC<{ children: React.ReactNode }> = ({ children }) => 
     </div>
   );
 
-const CallToAction: React.FC = () => {
+const CallToAction: React.FC<CallToActionProps> = ({ onOpenContactModal }) => {
   const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.3,
@@ -27,13 +30,12 @@ const CallToAction: React.FC = () => {
         <p className="text-lg text-light-text/90 max-w-3xl mx-auto mb-10">
           En DlxTech, entendemos que cada negocio es único. Permítenos ayudarte a explorar cómo nuestras soluciones avanzadas pueden impulsar tu crecimiento.
         </p>
-        <a
-          href="#contact"
-          onClick={handleLinkClick}
-          className="inline-block bg-button-bg text-light-text text-lg font-semibold px-10 py-5 rounded-lg shadow-lg hover:bg-button-hover hover:scale-105 transform transition-all duration-300 ease-in-out"
+        <button
+          onClick={onOpenContactModal}
+          className="inline-block bg-button-bg text-light-text text-lg font-semibold px-10 py-5 rounded-lg shadow-lg hover:bg-button-hover hover:scale-105 transform transition-all duration-300 ease-in-out cursor-pointer"
         >
           Hablemos de tu Proyecto
-        </a>
+        </button>
       </div>
     </section>
   );
