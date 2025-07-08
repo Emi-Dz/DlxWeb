@@ -6,6 +6,11 @@ interface IconProps {
   className?: string;
 }
 
+// --- CHATBOT CONFIGURATION ---
+// IMPORTANTE: Reemplaza la siguiente URL con la URL de tu webhook de n8n.
+// El chatbot no funcionará hasta que esta URL sea correcta.
+export const N8N_WEBHOOK_URL = 'https://dlxtech-n8n.uls4lg.easypanel.host/webhook/DlxBot';
+
 // Specific Icons
 const BrainIcon: React.FC<IconProps> = ({ className = "w-14 h-14" }) => (
   <svg className={className} stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
@@ -23,6 +28,12 @@ const RobotIcon: React.FC<IconProps> = ({ className = "w-14 h-14" }) => (
 const MobileIcon: React.FC<IconProps> = ({ className = "w-14 h-14" }) => (
   <svg className={className} stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
     <rect x="7" y="2" width="10" height="20" rx="2" ry="2"></rect><path d="M12 18h.01"></path>
+  </svg>
+);
+
+const CloudIcon: React.FC<IconProps> = ({ className = "w-14 h-14" }) => (
+  <svg className={className} stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
   </svg>
 );
 
@@ -78,6 +89,12 @@ export const XIcon: React.FC<IconProps> = ({ className = "w-8 h-8" }) => (
   </svg>
 );
 
+export const ChatIcon: React.FC<IconProps> = ({ className = "w-8 h-8" }) => (
+  <svg className={className} stroke="currentColor" fill="none" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+);
+
 
 export const NAV_LINKS: NavLink[] = [
   { href: '#services', label: 'Servicios' },
@@ -102,6 +119,7 @@ export const SERVICES: Service[] = [
     title: 'Diseño y Desarrollo de Apps',
     description: 'Creación de aplicaciones móviles y web intuitivas y potentes, adaptadas a tus necesidades.',
   },
+  
 ];
 
 export const BENEFITS: Benefit[] = [
@@ -152,20 +170,8 @@ export const FOUNDERS: Founder[] = [
 // Edita la siguiente información para mostrar tu proyecto principal.
 // Para obtener el 'youtubeVideoId', copia la parte de la URL de YouTube después de 'v='.
 // Ejemplo: para 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', el ID es 'dQw4w9WgXcQ'.
-export const PROJECTS: Project[] = [
-{
-    youtubeVideoId: 'j7Hj1jxU5e8',
-    title: 'DlxTech | Soluciones Tecnológicas Avanzadas',
-    description: 'En DlxTech ayudamos a negocios a crecer con tecnología real, práctica y accesible.',
-},
-{
-    youtubeVideoId: 'UbxuGFPbYTM',
-    title: 'App con IA para Diseños de Uñas, Tatuajes y Barberías',
-    description: 'Descubrí nuestra app con inteligencia artificial pensada para emprendedores creativos. Guardá tus diseños, creá tu portafolio y encontrá inspiración al instante con un buscador inteligente que te sugiere estilos según lo que escribas.',
-},
-{
-    youtubeVideoId: 'tPXEH60WILk',
-    title: 'Probamos un Asistente con IA para Instagram | Ejemplo de un centro de Estética',
-    description: 'En este video te mostramos cómo funciona un asistente inteligente con IA que responde consultas automáticamente por Instagram, ideal para centros de estética, peluquerías o barberías.',
-}
-];
+export const FEATURED_PROJECT: FeaturedProject = {
+    youtubeVideoId: 'UxSMm16Qc1I',
+    title: 'Batalla de Salamines',
+    description: 'Juego de Roblox de batalla por equipos.'
+};
