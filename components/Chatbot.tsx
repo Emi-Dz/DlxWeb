@@ -84,52 +84,27 @@ const Chatbot: React.FC = () => {
 
             const data = await response.json();
             
-            // The response from n8n is an array with one object: [{ respuesta_chatbot: {...} }]
-            const botResponseObject = data[0]?.respuesta_chatbot || data.multi_reply;
+            // Expects a response format of: `[{ "output": "message text" }]`
+            const botReplyText = data?.[0]?.output;
 
-
-            // Handle multi-part responses
-            if (botResponseObject && typeof botResponseObject === 'object') {
-                const parts = Object.keys(botResponseObject)
-                    .sort() // Sorts 'part_1', 'part_2', etc., correctly
-                    .map(key => botResponseObject[key])
-                    .filter(text => typeof text === 'string' && text.trim() !== '');
-
-                const addMessagesSequentially = (messagesToAdd: string[], index = 0) => {
-                    if (index >= messagesToAdd.length) {
-                        setIsLoading(false); // All messages sent, stop loading
-                        return;
-                    }
-
-                    const newBotMessage: ChatMessage = {
-                        id: `${Date.now()}-${index}`,
-                        text: messagesToAdd[index],
-                        sender: 'bot',
-                    };
-                    setMessages(prev => [...prev, newBotMessage]);
-
-                    // Wait a bit before sending the next message
-                    setTimeout(() => addMessagesSequentially(messagesToAdd, index + 1), 800);
-                };
-                
-                if (parts.length > 0) {
-                    addMessagesSequentially(parts);
-                } else {
-                     setMessages(prev => [...prev, { id: 'error_empty_reply', text: 'He recibido una respuesta, pero parece estar vacía. Por favor, intenta de nuevo.', sender: 'bot' }]);
-                     setIsLoading(false);
-                }
-
-            } else {
-                // Fallback for single-part or incorrectly formatted responses
-                const botReplyText = data.reply || data.text || 'No he podido procesar tu solicitud. Intenta de nuevo.';
+            if (botReplyText && typeof botReplyText === 'string') {
                 const newBotMessage: ChatMessage = {
                     id: (Date.now() + 1).toString(),
-                    text: botReplyText,
+                    text: botReplyText.trim(),
                     sender: 'bot',
                 };
                 setMessages(prev => [...prev, newBotMessage]);
-                setIsLoading(false);
+            } else {
+                console.error("Respuesta inesperada del servidor:", data);
+                const errorMessage: ChatMessage = {
+                    id: 'error_format',
+                    text: 'No he podido procesar la respuesta del servidor. Inténtalo de nuevo.',
+                    sender: 'bot',
+                };
+                setMessages(prev => [...prev, errorMessage]);
             }
+            
+            setIsLoading(false);
 
         } catch (error) {
             console.error('Error al contactar el webhook de n8n:', error);
@@ -141,7 +116,6 @@ const Chatbot: React.FC = () => {
             } else if (error instanceof Error && error.message.includes('500')) {
                 botMessageText = 'El servidor ha encontrado un error interno. Esto suele indicar un problema en la configuración del workflow de n8n. Revisa las ejecuciones en n8n para ver el detalle del error.';
             }
-
 
             const errorMessage: ChatMessage = {
                 id: 'error_fetch',
