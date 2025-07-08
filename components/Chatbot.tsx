@@ -68,22 +68,22 @@ const Chatbot: React.FC = () => {
         }
 
         try {
-            // Use URLSearchParams for better server compatibility.
-            // This sends data as 'application/x-www-form-urlencoded'.
-            const body = new URLSearchParams();
-            body.append('message', userMessageText);
-            
             const response = await fetch(N8N_WEBHOOK_URL, {
                 method: 'POST',
-                body: body,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: userMessageText }),
             });
 
             if (!response.ok) {
-                throw new Error(`Error de red: ${response.status}`);
+                 // Si hay un error, intentamos leer el cuerpo para dar más detalles
+                const errorBody = await response.text();
+                console.error("Error response body:", errorBody);
+                throw new Error(`Error de red: ${response.status} ${response.statusText}`);
             }
 
             const data = await response.json();
-            // We assume n8n will return a response in the "reply" or "text" field
             const botReplyText = data.reply || data.text || 'No he podido procesar tu solicitud. Intenta de nuevo.';
             
             const newBotMessage: ChatMessage = {
@@ -100,7 +100,10 @@ const Chatbot: React.FC = () => {
 
             if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
                  botMessageText = 'No se pudo conectar con el servidor. Esto suele deberse a una configuración de seguridad (CORS) en el webhook de n8n. Por favor, asegúrate de que tu servidor de n8n permite peticiones desde este dominio.';
+            } else if (error instanceof Error && error.message.includes('500')) {
+                botMessageText = 'El servidor ha encontrado un error interno. Esto suele indicar un problema en la configuración del workflow de n8n. Revisa las ejecuciones en n8n para ver el detalle del error.';
             }
+
 
             const errorMessage: ChatMessage = {
                 id: 'error_fetch',
