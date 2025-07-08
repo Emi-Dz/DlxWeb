@@ -77,21 +77,55 @@ const Chatbot: React.FC = () => {
             });
 
             if (!response.ok) {
-                 // Si hay un error, intentamos leer el cuerpo para dar más detalles
                 const errorBody = await response.text();
                 console.error("Error response body:", errorBody);
                 throw new Error(`Error de red: ${response.status} ${response.statusText}`);
             }
 
             const data = await response.json();
-            const botReplyText = data.reply || data.text || 'No he podido procesar tu solicitud. Intenta de nuevo.';
-            
-            const newBotMessage: ChatMessage = {
-                id: (Date.now() + 1).toString(),
-                text: botReplyText,
-                sender: 'bot',
-            };
-            setMessages(prev => [...prev, newBotMessage]);
+
+            // Handle multi-part responses
+            if (data.multi_reply && typeof data.multi_reply === 'object') {
+                const parts = Object.keys(data.multi_reply)
+                    .sort() // Sorts 'part_1', 'part_2', etc., correctly
+                    .map(key => data.multi_reply[key])
+                    .filter(text => typeof text === 'string' && text.trim() !== '');
+
+                const addMessagesSequentially = (messagesToAdd: string[], index = 0) => {
+                    if (index >= messagesToAdd.length) {
+                        setIsLoading(false); // All messages sent, stop loading
+                        return;
+                    }
+
+                    const newBotMessage: ChatMessage = {
+                        id: `${Date.now()}-${index}`,
+                        text: messagesToAdd[index],
+                        sender: 'bot',
+                    };
+                    setMessages(prev => [...prev, newBotMessage]);
+
+                    // Wait a bit before sending the next message
+                    setTimeout(() => addMessagesSequentially(messagesToAdd, index + 1), 800);
+                };
+                
+                if (parts.length > 0) {
+                    addMessagesSequentially(parts);
+                } else {
+                     setMessages(prev => [...prev, { id: 'error_empty_reply', text: 'He recibido una respuesta, pero parece estar vacía. Por favor, intenta de nuevo.', sender: 'bot' }]);
+                     setIsLoading(false);
+                }
+
+            } else {
+                // Fallback for single-part responses
+                const botReplyText = data.reply || data.text || 'No he podido procesar tu solicitud. Intenta de nuevo.';
+                const newBotMessage: ChatMessage = {
+                    id: (Date.now() + 1).toString(),
+                    text: botReplyText,
+                    sender: 'bot',
+                };
+                setMessages(prev => [...prev, newBotMessage]);
+                setIsLoading(false);
+            }
 
         } catch (error) {
             console.error('Error al contactar el webhook de n8n:', error);
@@ -111,7 +145,6 @@ const Chatbot: React.FC = () => {
                 sender: 'bot',
             };
             setMessages(prev => [...prev, errorMessage]);
-        } finally {
             setIsLoading(false);
         }
     };
