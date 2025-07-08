@@ -89,7 +89,6 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, isSuccess 
                      <div className="text-center py-10">
                         <h2 id="contact-modal-title" className="text-3xl font-bold text-light-text mb-4">¡Mensaje Enviado!</h2>
                         <p className="text-light-text/80">Gracias por contactarnos. Te responderemos a la brevedad.</p>
-                        <p className="text-sm text-light-text/60 mt-4">(Si es la primera vez que nos contactas, revisa tu correo para activar el envío).</p>
                     </div>
                 ) : (
                     <>
