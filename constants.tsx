@@ -1,3 +1,4 @@
+
 import React from 'react';
 import type { NavLink, Service, Benefit, Founder, Project } from './types';
 
@@ -7,15 +8,20 @@ interface IconProps {
 }
 
 // --- CHATBOT CONFIGURATION ---
-// IMPORTANTE: Reemplaza la siguiente URL con la URL de tu webhook de n8n.
-// El chatbot no funcionará hasta que esta URL sea correcta.
-export const N8N_WEBHOOK_URL = 'https://dlxtech-n8n.uls4lg.easypanel.host/webhook/DlxBot/';
+// Esta URL se gestiona a través de la variable de entorno VITE_N8N_WEBHOOK_URL
+// en tu plataforma de despliegue (ej. Vercel, Netlify).
+export const N8N_WEBHOOK_URL = (import.meta as any).env.VITE_N8N_WEBHOOK_URL;
+
+// --- CONTACT FORM CONFIGURATION ---
+// Esta URL se gestiona a través de la variable de entorno VITE_N8N_CONTACT_FORM_WEBHOOK_URL.
+export const N8N_CONTACT_FORM_WEBHOOK_URL = (import.meta as any).env.VITE_N8N_CONTACT_FORM_WEBHOOK_URL;
+
 
 // Specific Icons
 const BrainIcon: React.FC<IconProps> = ({ className = "w-14 h-14" }) => (
   <svg className={className} stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
     <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v1.2a1 1 0 0 0 .96 .995l.04 .005h.5a1.5 1.5 0 0 1 1.5 1.5v1a1.5 1.5 0 0 1-1.5 1.5h-2.5a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v2.5a2.5 2.5 0 0 1-5 0V10a2.5 2.5 0 0 1 5 0"></path>
-    <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v1.2a1 1 0 0 1-.96 .995l-.04 .005h-.5a1.5 1.5 0 0 0-1.5 1.5v1a1.5 1.5 0 0 0 1.5 1.5h2.5a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1a2 2 0 0 0-2 2v2.5a2.5 2.5 0 0 0 5 0V10a2.5 2.5 0 0 0-5 0"></path>
+    <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v1.2a1 1 0 0 1-.96.995l-.04 .005h-.5a1.5 1.5 0 0 0-1.5 1.5v1a1.5 1.5 0 0 0 1.5 1.5h2.5a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2h-1a2 2 0 0 0-2 2v2.5a2.5 2.5 0 0 0 5 0V10a2.5 2.5 0 0 0-5 0"></path>
   </svg>
 );
 
