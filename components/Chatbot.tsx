@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import type { ChatMessage } from '../types';
 import { ChatIcon, XIcon, N8N_WEBHOOK_URL } from '../constants';
@@ -18,7 +17,7 @@ const Chatbot: React.FC = () => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const isWebhookConfigured = N8N_WEBHOOK_URL && !N8N_WEBHOOK_URL.includes("REEMPLAZA");
+    const isWebhookConfigured = !!N8N_WEBHOOK_URL;
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -56,11 +55,11 @@ const Chatbot: React.FC = () => {
         setIsLoading(true);
 
         if (!isWebhookConfigured) {
-            console.warn("MODO DEMO: La N8N_WEBHOOK_URL no está configurada en constants.tsx.");
+            console.warn("MODO DEMO: La variable de entorno VITE_N8N_WEBHOOK_URL no está configurada.");
             setTimeout(() => {
                 setMessages(prev => [...prev, {
                     id: 'demo_mode',
-                    text: `¡Hola! Estoy en modo de demostración. Para conectarme, necesitas configurar la N8N_WEBHOOK_URL en el archivo 'constants.tsx'. Una vez hecho, podré responder a tu consulta sobre: "${userMessageText}"`,
+                    text: '¡Hola! Estoy en modo de demostración. Para que pueda conectarme, el administrador del sitio necesita configurar la variable de entorno VITE_N8N_WEBHOOK_URL.',
                     sender: 'bot'
                 }]);
                 setIsLoading(false);

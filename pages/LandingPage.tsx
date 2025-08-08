@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
@@ -12,18 +13,6 @@ import Chatbot from '../components/Chatbot';
 
 const LandingPage: React.FC = () => {
   const [isContactModalOpen, setContactModalOpen] = useState(false);
-  const [isFormSuccess, setFormSuccess] = useState(false);
-
-  useEffect(() => {
-    // Check for form submission success on redirect
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('contact') === 'success') {
-      setFormSuccess(true);
-      setContactModalOpen(true);
-      // Clean the URL to avoid showing the success message on refresh
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, []);
 
   useEffect(() => {
     const { hash } = window.location;
@@ -58,12 +47,6 @@ const LandingPage: React.FC = () => {
 
   const handleCloseModal = () => {
     setContactModalOpen(false);
-    // Reset success state after a delay to allow for fade-out animation
-    if (isFormSuccess) {
-      setTimeout(() => {
-        setFormSuccess(false);
-      }, 300);
-    }
   };
 
 
@@ -82,7 +65,6 @@ const LandingPage: React.FC = () => {
       <ContactModal 
         isOpen={isContactModalOpen} 
         onClose={handleCloseModal}
-        isSuccess={isFormSuccess} 
       />
       <Chatbot />
     </div>
